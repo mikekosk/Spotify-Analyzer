@@ -1,0 +1,7 @@
+<li id="micropost-<%= playlist.id %>">
+  <span class="user"><%= link_to playlist.user.email, playlist.user %></span>
+  <span class="content"><%= playlist.playlist %></span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(playlist.created_at) %> ago.
+  </span>
+</li>

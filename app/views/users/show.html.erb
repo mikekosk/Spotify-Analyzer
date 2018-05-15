@@ -7,20 +7,31 @@
 
 <% provide(:title, @user.email) %>
 <div class="row">
-  <aside class="col-md-6">
+  <aside class="col-md-4">
     <section class="user_info">
       <h1>
         <%= session[:hash]['display_name'] %>
         <%= @user.email %>
       </h1>
+      <%= link_to "Create Playlist", playlists_create_path %>
       <% spotify_user.playlists.each do |k| %>
         <li><%= "#{k.name}" %></li>
       <% end %>
     </section>
   </aside>
-  <div class="col-md-6">
+
+  <div class="col-md-8">
+    <% if @user.playlists.any? %>
+      <h3>Playlists (<%= @user.playlists.count %>)</h3>
+      <ul class="microposts">
+        <%= render @user.playlists %>
+      </ul>
+    <% end %>
+  </div>
+
+  <!-- <div class="col-md-6">
     <h1>
       <%= @user.phone %>
     </h1>
-  </div>
+  </div> -->
 </div>
