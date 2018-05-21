@@ -18,8 +18,11 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
 
   get 'playlists/create'
+  get 'tracks/create'
+  post 'playlists/activate'
 
   resources :users
   resources :playlists
+  resources :tracks
   # ,          only: [:create, :destroy]
 end

@@ -10,15 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_15_022026) do
+ActiveRecord::Schema.define(version: 2018_05_20_175350) do
 
   create_table "playlists", force: :cascade do |t|
-    t.string "playlist"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "playlist_obj"
+    t.boolean "is_active"
+    t.string "artist"
+    t.string "name"
     t.index ["user_id", "created_at"], name: "index_playlists_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_playlists_on_user_id"
+  end
+
+  create_table "tracks", force: :cascade do |t|
+    t.string "song"
+    t.integer "playlist_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "artist"
+    t.index ["playlist_id", "created_at"], name: "index_tracks_on_playlist_id_and_created_at"
+    t.index ["playlist_id"], name: "index_tracks_on_playlist_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -4,34 +4,36 @@
 <h1>
   <%= session[:hash]['display_name'] %>
 </h1>
+<h2>
+  <%= "Your Twilio Number: #{@user.phone}" %>
+</h2>
 
 <% provide(:title, @user.email) %>
 <div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <h1>
-        <%= session[:hash]['display_name'] %>
-        <%= @user.email %>
-      </h1>
-      <%= link_to "Create Playlist", playlists_create_path %>
-      <% spotify_user.playlists.each do |k| %>
-        <li><%= "#{k.name}" %></li>
-      <% end %>
-    </section>
-  </aside>
 
-  <div class="col-md-8">
+
+  <div class="col-md-6">
+    <h3>
+      Playlists (<%= @user.playlists.count %>)
+      <%= link_to "Create Playlist", playlists_create_path %>
+
+    </h3>
     <% if @user.playlists.any? %>
-      <h3>Playlists (<%= @user.playlists.count %>)</h3>
       <ul class="microposts">
         <%= render @user.playlists %>
       </ul>
     <% end %>
   </div>
 
-  <!-- <div class="col-md-6">
-    <h1>
-      <%= @user.phone %>
-    </h1>
-  </div> -->
+  <div class="col-md-6">
+    <%  @user.playlists.find_by(is_active: true) %>
+    <% if @user.playlists.find_by(is_active: true) %>
+      <h1>
+        <%= link_to "add track", tracks_create_path %>
+      </h1>
+      <% @track.each do |k| %>
+        <li><%= "#{k.song} - #{k.artist}" %> </li>
+      <% end %>
+    <% end %>
+  </div>
 </div>

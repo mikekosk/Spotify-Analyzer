@@ -1,7 +1,17 @@
 <li id="micropost-<%= playlist.id %>">
-  <span class="user"><%= link_to playlist.user.email, playlist.user %></span>
-  <span class="content"><%= playlist.playlist %></span>
+  <span class="user">
+    <%= "#{playlist.playlist_obj.name}" %>
+  </span>
+
+  <span class="content">
+    <%="Songs: #{playlist.tracks.count}"%>
+    <% if !playlist.is_active? %>
+      <%= link_to "Make Active Playlist", edit_playlist_path(:id => playlist.id)%>
+    <% end %>
+  </span>
   <span class="timestamp">
     Created <%= time_ago_in_words(playlist.created_at) %> ago.
+    <%= link_to "delete", playlist, method: :delete,
+                                       data: { confirm: "You sure?" } %>
   </span>
 </li>
