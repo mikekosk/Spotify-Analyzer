@@ -26,13 +26,16 @@
   </div>
 
   <div class="col-md-6">
-    <%  @user.playlists.find_by(is_active: true) %>
     <% if @user.playlists.find_by(is_active: true) %>
       <h1>
         <%= link_to "add track", tracks_create_path %>
       </h1>
-      <% @track.each do |k| %>
-        <li><%= "#{k.song} - #{k.artist}" %> </li>
+      <% if @track.empty? %>
+        No songs added yet!
+      <% else %>
+        <% @track.each do |k| %>
+          <li><%= "#{k.song} - #{k.artist}" %> </li>
+        <% end %>
       <% end %>
     <% end %>
   </div>
