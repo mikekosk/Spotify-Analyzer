@@ -17,9 +17,14 @@ Rails.application.routes.draw do
   #post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  # Twilio Calls
+  post 'sms/' => 'tracks#create'
+
   get 'playlists/create'
   get 'tracks/create'
   post 'playlists/activate'
+
+
 
   resources :users
   resources :playlists

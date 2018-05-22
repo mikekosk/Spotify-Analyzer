@@ -5,7 +5,11 @@
   <%= session[:hash]['display_name'] %>
 </h1>
 <h2>
-  <%= "Your Twilio Number: #{@user.phone}" %>
+  <% if @user.phone.blank? %>
+    <%= "PLEASE GO TO SETTINGS TO INPUT TWILIO CREDENTIALS" %>
+  <% else %>
+    <%= "Your Twilio Number: #{@user.phone}" %>
+  <% end %>
 </h2>
 
 <% provide(:title, @user.email) %>
@@ -28,7 +32,7 @@
   <div class="col-md-6">
     <% if @user.playlists.find_by(is_active: true) %>
       <h1>
-        <%= link_to "add track", tracks_create_path %>
+        <!-- <%= link_to "add track", tracks_create_path %> -->
       </h1>
       <% if @track.empty? %>
         No songs added yet!
