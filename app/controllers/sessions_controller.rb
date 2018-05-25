@@ -1,8 +1,11 @@
 class SessionsController < ApplicationController
 
+<<<<<<< HEAD
   def new
   end
 
+=======
+>>>>>>> old_branch
   def create
     receive_spotify_callback
     user = User.find_by(email: @email.downcase)
@@ -10,6 +13,7 @@ class SessionsController < ApplicationController
       log_in(user, @hash)
     else
       new_user(@email)
+      user = User.find_by(email: @email.downcase)
       log_in(user, @hash)
     end
     flash[:success] = 'Welcome!'

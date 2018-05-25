@@ -1,19 +1,25 @@
 <% provide(:title, @user.email) %>
 <% spotify_user = RSpotify::User.new(session[:hash]) %>
+<% sort_by = params[:sort_by] %>
 
 <h1>
-  <%= session[:hash]['display_name'] %>
+  Welcome!
 </h1>
 <h2>
+<<<<<<< HEAD
   <% if @user.phone.blank? %>
     <%= "PLEASE GO TO SETTINGS TO INPUT TWILIO CREDENTIALS" %>
   <% else %>
     <%= "Your Twilio Number: #{@user.phone}" %>
   <% end %>
+=======
+  Click on a playlist to begin analyzing and sorting your playlists
+>>>>>>> old_branch
 </h2>
 
 <% provide(:title, @user.email) %>
 <div class="row">
+<<<<<<< HEAD
 
 
   <div class="col-md-6">
@@ -43,4 +49,76 @@
       <% end %>
     <% end %>
   </div>
+=======
+  <aside class="col-md-5">
+    <section class="user_info">
+
+      <h1>
+        Your Playlists
+      </h1>
+
+      <% spotify_user.playlists.each_with_index do |k, index| %>
+        <ul>
+          <%= link_to "#{index+1}. #{k.name}", user_path(:playlist_id => index+1) %>
+        </ul>
+      <% end %>
+    </section>
+    <p>
+      <%= link_to "Sort by danceability", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :danceability}) %> <br>
+      <%= link_to "Sort by tempo", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :tempo}) %> <br>
+      <%= link_to "Sort by valence", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :valence}) %> <br>
+      <%= link_to "Sort by speechiness", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :speechiness}) %> <br>
+      <%= link_to "Sort by instrumentalness", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :instrumentalness}) %> <br>
+      <%= link_to "Sort by acousticness", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :acousticness}) %> <br>
+      <%= link_to "Sort by energy", params.permit(:playlist_id, :sort_by)
+            .merge({:sort_by => :energy}) %> <br>
+    </p>
+
+
+  </aside>
+
+  <aside class="col-md-7">
+    <section class="user_info">
+      <% if params[:sort_by] %>
+        <%= link_to "Save Playlist", params.permit(:playlist_id, :sort_by, :save)
+              .merge({:save => 'true'}) %>
+      <% end %>
+      <% if @tracks.nil? %>
+        Please Select a Playlist!
+      <% else %>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th><%= "Title" %></th>
+            <th><%= "Artist" %></th>
+            <% if !sort_by.nil? %>
+              <th><%= sort_by.capitalize %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tracks.each do |track| %>
+            <tr>
+              <td><%= track.name %></td>
+              <td><%= track.artists[0].name %></td>
+              <% if !sort_by.nil? %>
+                <td>
+                  <%= "#{track.audio_features.send(sort_by).round(2)}" %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% end %>
+
+    </section>
+  </aside>
+>>>>>>> old_branch
 </div>

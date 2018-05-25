@@ -12,9 +12,6 @@ Rails.application.routes.draw do
   get '/auth/spotify/callback', to: 'sessions#create'
 
   # Sessions Controller
-  get   '/login',   to: 'sessions#create'
-  #get    '/login',   to: 'sessions#new'
-  #post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
   # Twilio Calls
@@ -27,7 +24,11 @@ Rails.application.routes.draw do
 
 
   resources :users
+<<<<<<< HEAD
   resources :playlists
   resources :tracks
   # ,          only: [:create, :destroy]
+=======
+
+>>>>>>> old_branch
 end
