@@ -1,24 +1,35 @@
-# README
+# Read Me
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To get started with the app, clone the repo and then install the needed gems:
 
-Things you may want to cover:
+```
+$ bundle install --without production
+```
 
-* Ruby version
+Next, migrate the database:
 
-* System dependencies
+```
+$ rails db:migrate
+```
 
-* Configuration
+You'll need to make an account with [Spotify Developer](https://beta.developer.spotify.com/dashboard/login)
+to get Spotify API access keys.  Put those access keys in a .env file in your
+root directory like below:
 
-* Database creation
+```
+SPOTIFY_CLIENT_ID = "XXXXXXXX"
+SPOTIFY_CLIENT_SECRET = "XXXXXXXX"
+```
 
-* Database initialization
+Set the Spotify callback link on Spotify Developer to your hosted environment.  
 
-* How to run the test suite
+```
+Example: http://localhost:3000/auth/spotify/callback
+Example: http://heroku-project.com/auth/spotify/callback
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Run the application
 
-* Deployment instructions
-
-* ...
+```
+$ rails server
+```

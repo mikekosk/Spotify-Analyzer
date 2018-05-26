@@ -3,32 +3,27 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     spotify_user = RSpotify::User.new(session[:hash])
+    puts ENV['SPOTIFY_CLIENT_ID']
 
     ## Select Playlist
+    ## Do not query again if same playlist is used
     if params[:playlist_id]
       playlist_id = params[:playlist_id].to_i - 1
-      @tracks = spotify_user.playlists[playlist_id].tracks(limit: 40)
+      if session[:playlist_id] != playlist_id
+        @tracks = spotify_user.playlists[playlist_id].tracks(limit: 100)
+        session[:tracks] = @tracks
+      else ## Pull from session
+        @tracks = session[:tracks]
+      end
+      session[:playlist_id] = playlist_id
     else
       @tracks = nil
     end
 
     ## Sort Playlist
-    if params[:sort_by] == 'name'
-      @tracks = @tracks.sort_by(&:name)
-    elsif params[:sort_by] == 'danceability'
-      @tracks = @tracks.sort_by{|a| a.audio_features.danceability}
-    elsif params[:sort_by] == 'tempo'
-      @tracks = @tracks.sort_by{|a| a.audio_features.tempo}
-    elsif params[:sort_by] == 'valence'
-      @tracks = @tracks.sort_by{|a| a.audio_features.valence}
-    elsif params[:sort_by] == 'speechiness'
-      @tracks = @tracks.sort_by{|a| a.audio_features.speechiness}
-    elsif params[:sort_by] == 'instrumentalness'
-      @tracks = @tracks.sort_by{|a| a.audio_features.instrumentalness}
-    elsif params[:sort_by] == 'acousticness'
-      @tracks = @tracks.sort_by{|a| a.audio_features.acousticness}
-    elsif params[:sort_by] == 'energy'
-      @tracks = @tracks.sort_by{|a| a.audio_features.energy}
+    if params[:sort_by]
+      sort_by = params[:sort_by]
+      @tracks.sort_by{|a| a.audio_features.send(sort_by)}
     else
       @tracks
     end
@@ -49,10 +44,6 @@ class UsersController < ApplicationController
       redirect_to params.permit(:playlist_id, :sort_by)
         .merge({:playlist_id => 1})
     end
-  end
-
-  def save
-    spotify_user
   end
 
 end
